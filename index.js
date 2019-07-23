@@ -53,13 +53,13 @@ var gameInterval = null
        * we should call endGame()
        */
        if (checkCollision(rock)) {
-          endGame()
+          return endGame()
        }
       /**
        * Otherwise, if the rock hasn't reached the bottom of
        * the GAME, we want to move it again.
        */
-       else if (rock.style.top < GAME_HEIGHT) {
+       if (top < GAME_HEIGHT) {
          window.requestAnimationFrame(moveRock);
       }
       /**
@@ -85,11 +85,13 @@ var gameInterval = null
 
 function endGame() {
  clearInterval(gameInterval);
- window.removeEventListener("keydown", moveDodger);
   for (i = 0; i < ROCKS.length; i++){
    ROCKS[i].remove()
   }
-  window.alert("YOU LOSE!!");
+  window.removeEventListener("keydown", moveDodger);
+  START.innerHTML = 'Play again?'
+  START.style.display = 'inline'
+  return alert("YOU LOSE!!");
 }
 
 function moveDodger(e) {
@@ -110,7 +112,7 @@ function moveDodgerLeft() {
   var leftNumbers = DODGER.style.left.replace('px', '')
   var right = parseInt(leftNumbers, 10)
   if (right > 0) {
-    DODGER.style.left = `${right - 1}px`
+    DODGER.style.left = `${right - 3}px`
   }
 }
 
@@ -118,7 +120,7 @@ function moveDodgerRight() {
   var leftNumbers = DODGER.style.left.replace('px', '')
   var right = parseInt(leftNumbers, 10)
   if (right < 360) {
-    DODGER.style.left = `${right + 1}px`
+    DODGER.style.left = `${right + 3}px`
   }
 }
 
@@ -137,4 +139,3 @@ function start() {
    createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
  }, 1000)
 }
-  
